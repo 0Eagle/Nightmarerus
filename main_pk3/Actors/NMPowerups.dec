@@ -1,0 +1,472 @@
+Actor NMSlowDown : PowerSpeed
+{
++POWERSPEED.NOTRAIL
+Speed 0.25
+}
+
+Actor NMSlowDownMode : PowerupGiver
+{
+-COUNTITEM
++INVENTORY.QUIET
++INVENTORY.AUTOACTIVATE
++INVENTORY.UNDROPPABLE
+inventory.amount 1
+inventory.maxamount 0
+powerup.type "NMSlowDown"
+powerup.duration -2
+}
+//==============================================================================
+Actor RageRune : PowerupGiver 5101
+{
+//$Category Powerups/Skulltag
+//$Sprite RAGRA0
+//$Title "Rage Rune"
+Game Doom
+Game Heretic
+Game Hexen
+SpawnID 181
++COUNTITEM
+-NOGRAVITY
++INVENTORY.AUTOACTIVATE
+Inventory.Icon "RAGRA0"
+Inventory.MaxAmount 0
+Powerup.Type "PowerDoubleFiringSpeed"
+Powerup.Duration 0x7FFFFFFF
+Inventory.PickupMessage "Rage Rune"//"$PICKUP_RAGE"
+Inventory.PickupAnnouncerEntry "rage"
+Tag "Rage Rune"
+States
+	{
+	Spawn:
+		TNT1 A 0
+	SpawnLoop:
+		RAGR ABCDEFGH 6
+		Loop
+	}
+}
+//==============================================================================
+Actor LegendaryRune : CustomInventory 30303
+{
+//$Category Powerups/LCA
+//$Sprite LGRNA0
+//$Title "Legendary Rune"
++FLOATBOB
++COUNTITEM
++NOTIMEFREEZE
+-INVENTORY.INVBAR
+-INVENTORY.AUTOACTIVATE
+Inventory.Amount 1
+Inventory.MaxAmount 1
+ActiveSound "Pickups/Legruneidle"
+Inventory.PickupSound ""
+Inventory.PickupMessage "Legendary Rune obtained! That's 3 runes in 1!"
+States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ARGS[0]!=0,"Norespawn")//First argument equal zero - for respawn item.
+	SpawnLoop:
+		TNT1 A 0 A_LoopActiveSound
+		TNT1 A 0 A_SpawnItemEx("YellowSparkleSpawner",0,0,0,0,0,0,0,SXF_CLIENTSIDE|SXF_NOCHECKPOSITION,0) 
+		LGRN AAAAAA 10 Bright A_SpawnItemEx("LegendaryRuneFlameSpawner",0,0,3,0,0,0,0,SXF_CLIENTSIDE|SXF_NOCHECKPOSITION,0) 
+		Loop
+	Pickup:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIfInventory("LegendaryRuneItem",1,"Nope")
+		TNT1 A 0 A_GiveInventory("LegRuneDoubleDamage",1)
+		TNT1 A 0 A_GiveInventory("LegDoubleFiringSpeed",1)
+		TNT1 A 0 A_GiveInventory("LegProtection",1)
+		TNT1 A 0 A_GiveInventory("LegIronFeet",1)
+		TNT1 A 0 A_GiveInventory("LegendaryRuneItem",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("ExtraLegendaryRuneFix",0)
+		TNT1 A 0 A_PlaySound("Pickups/Legrune",CHAN_ITEM,1.0,False)
+		Stop
+	Held:
+		TNT1 A 1 Thing_ChangeTID(0,0)
+		TNT1 A 1 A_StopSound(CHAN_VOICE)
+		Stop
+	Norespawn:
+		TNT1 A 0 A_ChangeFlag("INVENTORY.NEVERRESPAWN",1)
+		Goto SpawnLoop
+	Nope:
+		TNT1 A 0
+		Fail	
+	}
+}
+
+Actor LegRuneDoubleDamage : PowerDamage
+{
++INVENTORY.HUBPOWER
++INVENTORY.PERSISTENTPOWER
++NOTIMEFREEZE
+DamageFactor "Normal", 2
+Powerup.Duration 0x7FFFFFFF
+}
+
+Actor LegDoubleFiringSpeed : PowerDoubleFiringSpeed
+{
++INVENTORY.HUBPOWER
++INVENTORY.PERSISTENTPOWER
++NOTIMEFREEZE
+Powerup.Duration 0x7FFFFFFF
+}
+
+Actor LegProtection : PowerProtection
+{
++INVENTORY.PERSISTENTPOWER
++INVENTORY.HUBPOWER
++NORADIUSDMG
++NOTIMEFREEZE
+Powerup.Duration 0x7FFFFFFF
+DamageFactor "Normal", 0.75
+ActiveSound "Pickups/LegProtectionActive"
+}
+
+Actor LegIronFeet : PowerIronFeet
+{
++INVENTORY.HUBPOWER
++INVENTORY.PERSISTENTPOWER
++NOTIMEFREEZE
+DamageFactor "Slime", 0.0
+Powerup.Duration 0x7FFFFFFF
+Powerup.Color "00 00 00", 0.0
+}
+
+Actor LegendaryRuneItem : Weapon
+{
+Weapon.SelectionOrder 99999
++NOTIMEFREEZE
++WEAPON.NOALERT
++INVENTORY.UNDROPPABLE
++WEAPON.CHEATNOTWEAPON
++WEAPON.NO_AUTO_SWITCH
+States
+	{
+	Spawn:
+		TNT1 A 1 Nodelay Thing_Remove(0)
+		Stop
+	Ready:
+		TNT1 A 1
+		Loop
+	Select:
+		TNT1 A 1 A_Raise
+		Loop
+	Deselect:
+		TNT1 A 1 A_Lower
+		Loop
+	Fire:
+		TNT1 A 1
+		Goto Ready
+	}
+}
+
+Actor YellowStar
+{
+Projectile
+Height 0
+Radius 0
+Speed 2
+Scale 0.16
+RenderStyle Add
+Translation "80:111=160:167"
++FLOATBOB
++NOGRAVITY
++DOOMBOUNCE
++DONTSPLASH
++NOTELEPORT
++FORCEXYBILLBOARD
++CLIENTSIDEONLY
++NONETID
+States
+	{
+	Spawn:
+		TNT1 A 0
+	SpawnLoop:
+		PTCL ABC 2 Bright A_FadeOut(0.05,1)
+		Loop
+	}
+}
+
+Actor YellowSparkleSpawner
+{
+Height 3
+Radius 3
+RenderStyle None
++NOTIMEFREEZE
++DONTBLAST
++NOTELEPORT
++NOINTERACTION
++CLIENTSIDEONLY
++NONETID
+States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_CheckSight("Nosfx")
+		TNT1 AA 2 A_SpawnItemEx("YellowStar",frandom(-15,15),frandom(-15,15),frandom(28,44),0,0,0,0,SXF_CLIENTSIDE|SXF_NOCHECKPOSITION,0)
+		Stop
+	Nosfx:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor LegendarySphereFlame
+{
+Height 10
+Radius 10
+Scale 0.3
+RenderStyle Add
++NOTIMEFREEZE
++MISSILE
++DROPOFF
++DONTBLAST
++NOGRAVITY
++NOBLOCKMAP
++NOTELEPORT
++DONTSPLASH
++THRUACTORS
++FORCEXYBILLBOARD
++CLIENTSIDEONLY
++NONETID
+States
+	{
+	Spawn:
+		LMKE ABCDEFGHIJKL 2 Bright A_FadeOut(0.1,1)
+		Stop
+	}
+}
+
+Actor LegendaryRuneFlame : LegendarySphereFlame
+{
+Scale 0.1
+States
+	{
+	Spawn:
+		LMKE ABCDEFGHIJKL 2 Bright A_FadeOut(0.1,1)
+		Stop
+	}
+}
+
+Actor LegendarySphereFlameSpawner 
+{
+Height 3
+Radius 3
+RenderStyle None
++NOTIMEFREEZE
++DONTBLAST
++NOTELEPORT
++NOINTERACTION
++CLIENTSIDEONLY
++NONETID
+States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_CheckSight("Nosfx")
+		TNT1 AAAAAA 0 A_SpawnItemEx("LegendarySphereFlame",frandom(-20,20),frandom(-20,20),frandom(20,40),0,0,frandom(2,6),0,SXF_CLIENTSIDE|SXF_NOCHECKPOSITION,0)
+		TNT1 A 1
+		Stop
+	Nosfx:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor LegendaryRuneFlameSpawner : LegendarySphereFlameSpawner
+{
+States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_CheckSight("Nosfx")
+		TNT1 AAAAAA 0 A_SpawnItemEx("LegendaryRuneFlame",frandom(-20,20),frandom(-20,20),frandom(20,40),0,0,frandom(2,6),0,SXF_NOCHECKPOSITION|SXF_CLIENTSIDE,0)
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor LPlayerSmoke
+{
+Scale 0.1
+RenderStyle Normal
++NOTIMEFREEZE
++MISSILE
++DONTSPLASH
++NOBLOCKMAP
++NOGRAVITY
++NOTELEPORT
++THRUACTORS
++FORCEXYBILLBOARD
++NOINTERACTION
++CLIENTSIDEONLY
++NONETID
+States
+	{
+	Spawn:
+		LMKE ABCDEFGHIJKL 2 Bright A_FadeOut(0.1,1)
+		Stop
+	}
+}
+
+Actor LPlayerSmokeSpawner 
+{
+Height 2
+Radius 2
+RenderStyle None
++NOTIMEFREEZE
++DONTBLAST
++NOTELEPORT
++NOINTERACTION
++CLIENTSIDEONLY
++NONETID
+States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AA 0 A_SpawnItemEx("LPlayerSmoke",random(-12,12),random(-12,12),random(-16,16),0,0,frandom(1,3),0,SXF_NOCHECKPOSITION|SXF_CLIENTSIDE,0)
+		TNT1 A 1
+		Stop
+	}
+}
+//==============================================================================
+Actor LegendarySphere : CustomInventory 16700
+{
+//$Category Powerups/LCA
+//$Sprite LSPHA0
+//$Title "Legendary Sphere"
+-FLOAT
++FLOATBOB
++COUNTITEM
++NOTIMEFREEZE
+-INVENTORY.INVBAR
++INVENTORY.BIGPOWERUP
+Inventory.PickUpSound "legendarysphere/pickup"
+Inventory.PickupMessage "Legendary Sphere. You lucky bastard!"
+States
+	{
+	Spawn:
+		TNT1 A 0
+	SpawnLoop:
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_PlaySound("legendarysphere/idle",CHAN_VOICE,5.0)
+		LSPH ABCDCB 10 Bright A_SpawnItemEx("LegendarySphereFlameSpawner",0,0,3,0,0,0,0,SXF_CLIENTSIDE|SXF_NOCHECKPOSITION,0) 
+		Loop
+	Pickup:
+		TNT1 A 0 
+		TNT1 A 0 A_JumpIf(HEALTH >= 500,"Nope")
+		TNT1 A 0 Healthing(500,500)
+		Stop
+	Nope:
+		TNT1 A 0
+		Fail
+	}
+}
+//==============================================================================
+Actor TerminatorItem : CustomInventory 32727
+{
+//$Category Powerups/Skulltag
+//$Sprite ARNOA0
+//$Title "Terminator Sphere"
+Mass 1
+Gravity 1.0
++COUNTITEM
++FLOAT
+-FLOATBOB
+-NOGRAVITY
++NOTIMEFREEZE
++FORCEXYBILLBOARD
++INVENTORY.AUTOACTIVATE
++INVENTORY.ALWAYSPICKUP
+Inventory.MaxAmount 0
+Inventory.PickupSound "misc/p_pkup"
+Tag "Terminator Artifact"
+States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ARGS[0]==0,"Norespawn")//First argument not equal zero - for respawn item.
+	SpawnLoop:
+		ARNO ABCD 6 Bright
+		Loop
+	Pickup:
+		TNT1 A 0
+		TNT1 A 0 Healthing(666,666)
+		TNT1 A 0 A_GiveInventory("BlueArmorForTerminator", 1)
+		TNT1 A 0 A_GiveInventory("TerminatorItemGiver",1)
+		Stop
+	Norespawn:
+		TNT1 A 0 A_ChangeFlag("INVENTORY.BIGPOWERUP",1)
+		Goto SpawnLoop
+	}
+}
+
+Actor TerminatorItemQuadDamage : PowerDamage { DamageFactor "Normal", 4 }
+
+Actor TerminatorItemGiver : PowerupGiver
+{
+-COUNTITEM
++INVENTORY.QUIET
+-INVENTORY.ALWAYSPICKUP
++INVENTORY.AUTOACTIVATE
+-INVENTORY.INVBAR
+Inventory.MaxAmount 1
+Powerup.Type "TerminatorItemQuadDamage"
+Powerup.Duration 0x7FFFFFFF
+}
+
+Actor BlueArmorForTerminator : BlueArmor
+{
++NORADIUSDMG
+Armor.SavePercent 66
+Armor.SaveAmount 666
+DamageFactor "Normal", 0.125
+}
+//==============================================================================
+Actor SpreadRune : CustomInventory 5103
+{
+//$Category Powerups/Skulltag
+//$Sprite SPRRA0
+//$Title "Spread Rune"
+States
+	{
+	Spawn:
+		TNT1 A 1
+		Stop
+	}
+}
+//==============================================================================
+Actor HealthBackpack : CustomInventory 32741
+{
+//$Category "Health and Armor"
+//$Sprite MBPKA0
+//$Title "Health Backpack"
++INVENTORY.INVBAR
++INVENTORY.UNDROPPABLE
+Inventory.Amount 100
+Inventory.MaxAmount 100
+Inventory.InterHubAmount 100
+Inventory.RespawnTics 4200
+Inventory.PickupMessage "You got a Health Backpack."
+Inventory.Icon "MBPKB0"
+Tag "Health Pack"
+States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ARGS[0]==0,"Norespawn")
+	SpawnLoop:
+		MBPK A -1
+		Stop
+	Use:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("Extra_MedicalBackpack") == 1, "PlaySound")
+		Fail
+	PlaySound:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("MedicalBackpack/Use",6)
+		Fail
+	Norespawn:
+		TNT1 A 0 A_ChangeFlag("INVENTORY.BIGPOWERUP",1)
+		Goto SpawnLoop
+	}
+}

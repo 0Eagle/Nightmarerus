@@ -1,0 +1,55 @@
+sounds/laugh	laugh
+sounds/lucky	lucky
+sounds/no		no
+
+ambient1 paradisu
+$rolloff ambient1 48 64
+$ambient 1 ambient1 point continuous 20.0 35.0 1.0
+
+ambient2 hum
+$rolloff ambient2 256 1024
+$ambient 2 ambient2 point continuous 20.0 35.0 1.0
+
+//Legendary Rune
+Pickups/Legrune					LEGRUNE
+Pickups/Legruneidle				SPIRACT
+Pickups/LegProtection			LEGPROT
+Pickups/LegProtectionActive		PROTACT
+$Volume LEGRUNE 1.0
+$Volume PROTACT 2.0
+
+//Sentry Gun
+NMSentry/Active					DSSENTID
+NMSentry/Death					DSSENTDI
+NMSentry/See					DSSENALR
+NMSentry/Attack					DSSENTFI
+$limit NMSentry/Attack 16
+$rolloff NMSentry/Attack 200 2048
+
+//Medical Backpack
+MedicalBackpack/Use				MEDBPUSE
+
+//Legendary Sphere
+legendarysphere/pickup			DSSPHERE
+legendarysphere/idle1			TAMEIDL1
+legendarysphere/idle2			TAMEIDL2
+legendarysphere/idle3			TAMEIDL3
+legendarysphere/idle4			TAMEIDL4
+legendarysphere/idle5			TAMEIDL5
+legendarysphere/idle6			TAMEIDL6
+legendarysphere/idle7			TAMEIDL7
+legendarysphere/idle8			TAMEIDL8
+$random legendarysphere/idle { legendarysphere/idle1 legendarysphere/idle2 legendarysphere/idle3 legendarysphere/idle4 legendarysphere/idle5 legendarysphere/idle6 legendarysphere/idle7 legendarysphere/idle8 }
+legendarymegasphere/idle		ULTIDLE
+
+//Poltergeist
+polt/whisp1			PLTW1
+polt/whisp2			PLTW2
+$random polt/see { polt/whisp1 polt/whisp2 }
+polt/laugh1			PLTL1
+polt/laugh2			PLTL2
+$random polt/laugh { polt/laugh1 polt/laugh2 }
+polt/break1			PLTDT
+polt/throw			PLTTH
+polt/light			PLTLGT
+bigplasma/explode	PLTEKEXP

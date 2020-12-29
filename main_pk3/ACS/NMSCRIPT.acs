@@ -1,0 +1,163 @@
+#library "NMSCRIPT"
+#include "zcommon.acs"
+
+script "NM_AmmoBelt" (void)
+{
+	GiveInventory("AmmoBeltArmor",1);
+	GiveInventory("Shell",20);
+	GiveInventory("Clip",50);
+	GiveInventory("RocketAmmo",5);
+	GiveInventory("Cell",20);
+	GiveInventory("HandGrenadeAmmo",2);
+	GiveInventory("GrenadeAmmo",2);
+	GiveInventory("NewShell",20);
+	GiveInventory("BulletMag",20);
+	GiveInventory("Missile",5);
+	GiveInventory("NewCell",20);
+}
+
+script "ExtraLegendaryRuneFix" (void)
+{
+	delay(random(10,15));
+	while((CheckInventory("LegendaryRuneItem") > 0) && (ClassifyActor(0) & ACTOR_ALIVE))
+	{
+		int counter = 0;
+		while((counter < 120) && (CheckInventory("LegendaryRuneItem") > 0) && (ClassifyActor(0) & ACTOR_ALIVE))
+		{
+			SpawnForced("LPlayerSmokeSpawner",GetActorX(0),GetActorY(0),GetActorZ(0),0,((GetActorAngle(0)*255)>>16));
+			counter++;
+			delay(random(4,6));
+		}
+		TakeInventory("LegRuneDoubleDamage",1);
+		TakeInventory("LegDoubleFiringSpeed",1);
+		TakeInventory("LegProtection",1);
+		TakeInventory("LegIronFeet",1);
+		delay(1);
+		if((ClassifyActor(0) & ACTOR_ALIVE) && (CheckInventory("LegendaryRuneItem") > 0))
+		{
+			GiveInventory("LegRuneDoubleDamage",1);
+			GiveInventory("LegDoubleFiringSpeed",1);
+			GiveInventory("LegProtection",1);
+			GiveInventory("LegIronFeet",1);
+		}
+	}
+	if (ClassifyActor(0) & ACTOR_DEAD)
+	{
+		TakeInventory("LegendaryRuneItem",1);
+	}
+	delay(1);
+}
+
+script "Extra_CheckActorMonster" (void)
+{
+	if((!(ClassifyActor(0) & ACTOR_PLAYER)) && (ClassifyActor(0) & ACTOR_MONSTER))
+	{
+		SetResultValue(1);//monster
+	}
+	else
+	{
+		SetResultValue(0);
+	}
+}
+
+function bool Extra_CheckMaxHealth (void)
+{
+	If(GetActorProperty(0, APROP_SpawnHealth) == 0)SetActorProperty(0, APROP_SpawnHealth, 100);
+	if(GetActorProperty(0, APROP_Health) < GetActorProperty(0, APROP_SpawnHealth))return true;
+	return false;
+}
+
+Script "Extra_MedicalBackpack" (void)
+{
+	bool use = false;
+	while((Extra_CheckMaxHealth() == true) && (CheckInventory("HealthBackpack") > 0))
+	{
+		TakeInventory("HealthBackpack", 1);
+		Healthing(1);
+		delay(1);
+		use = true;
+	}
+	if(use == true)
+	{
+		SetResultValue(1);
+	}
+	else
+	{
+		SetResultValue(0);
+	}
+}
+
+script "nm_addnmmaps" (void)
+{
+	ConsoleCommand("addmap map01");
+	ConsoleCommand("addmap map02");
+	ConsoleCommand("addmap map03");
+	ConsoleCommand("addmap map04");
+	ConsoleCommand("addmap map05");
+	ConsoleCommand("addmap map06");
+	ConsoleCommand("addmap map07");
+	ConsoleCommand("addmap map08");
+	ConsoleCommand("addmap map09");
+	ConsoleCommand("addmap map10");
+	ConsoleCommand("addmap map11");
+	ConsoleCommand("addmap map12");
+	ConsoleCommand("addmap map16");
+	ConsoleCommand("addmap map31");
+	ConsoleCommand("addmap map32");
+	printbold(s:"Added all nm maps to map rotation.");
+	log(s:"Added all nm maps to map rotation.");
+}
+
+function bool IsGameTypeSinglePlayer(void)
+{
+	if((GameType() == GAME_TITLE_MAP) || (GameType() == GAME_SINGLE_PLAYER))
+	{
+		return true;
+	}
+	return false;
+}
+
+script "NM_NoJerkSpawner" (void)
+{
+	while((PlayerIsSpectator(PlayerNumber()) == 0) && (GetLevelInfo(LEVELINFO_LEVELNUM) == 4))
+	{
+		Spawn("NMSpawnerBase",GetActorX(0),GetActorY(0),GetActorZ(0),UniqueTID(0,0),GetActorAngle(0)>>8);
+		GiveInventory("NMMonstersAlerter",1);
+		delay(35*random(1,30));
+	}
+}
+
+script "NM_NoJerk" (void)
+{
+	if(!IsGameTypeSinglePlayer() && (GetLevelInfo(LEVELINFO_LEVELNUM) == 4))
+	{
+		if(CheckInventory("NMCounterItem") > 1)
+		{
+			ACS_NamedExecuteAlways("NM_NoJerkSpawner",0);
+		}
+		else
+		{
+			GiveInventory("NMCounterItem",1);
+		}
+	}
+}
+
+script "NM_Enter" ENTER
+{
+	Delay(random(1,10));
+	ACS_NamedExecuteAlways("NM_NoJerk",0);
+}
+
+script "NM_Respawn" RESPAWN
+{
+	Delay(random(1,10));
+	ACS_NamedExecuteAlways("NM_NoJerk",0);
+}
+
+script "NM_Death" DEATH
+{
+	if(!IsGameTypeSinglePlayer() && (GetLevelInfo(LEVELINFO_LEVELNUM) != 4))
+	{
+		TakeInventory("NMCounterItem",2);
+	}
+}

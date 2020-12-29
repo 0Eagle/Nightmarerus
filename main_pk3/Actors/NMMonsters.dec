@@ -1,0 +1,1119 @@
+Actor Poltergeist_0 : RandomSpawner 32742
+{
+DropItem "Poltergeist_1", 256, 15
+DropItem "Poltergeist_2", 256, 10
+DropItem "Poltergeist_3", 256, 10
+DropItem "Poltergeist_4", 256, 10
+DropItem "Poltergeist_5", 256, 10
+DropItem "Poltergeist_6", 256, 10
+DropItem "Poltergeist_7", 256, 10
+DropItem "Poltergeist_8", 256, 10
+DropItem "Poltergeist_9", 256, 10
+DropItem "Poltergeist_10", 256, 5
+}
+
+Actor Poltergeist_1
+{
+Monster
+Health 1
+Height 14
+Radius 8
+Mass 5
+Speed 0
+Painchance 0
+Damage 3
++NOBLOOD
++DONTMORPH
++DONTSQUASH
+-NOGRAVITY
++NOPAIN
++NODAMAGE
+-SHOOTABLE
+DeathSound "polt/break1"
+Obituary "%o was killed by a poltergeist."
+Tag "Poltergeist"
+States
+	{
+	Spawn:
+		PLTG Z 10 A_LookEx(LOF_NOSOUNDCHECK,0,192,0,360)
+		Loop
+	See:
+		PLTG A 1 A_ChangeFlag("NOGRAVITY",1)
+		PLTG A 1 A_PlaySoundEx ("polt/see", "Auto")
+		PLTG A 0 Bright A_PlaySoundEx ("polt/light", "Auto")
+		PLTG BCDBCD 3 Bright
+		PLTG BCD 3 Bright ThrustThingZ(0,Random(20,24),0,0)
+		PLTG BCD 3 Bright ThrustThingZ(0,Random(-7,-9),0,0)
+		PLTG BCD 4 Bright ThrustThingZ(0,Random(9,7),0,0)
+		PLTG BCD 4 Bright ThrustThingZ(0,Random(-7,-9),0,0)
+		PLTG BCD 5 Bright ThrustThingZ(0,Random(9,7),0,0)
+		PLTG BCD 5 Bright ThrustThingZ(0,Random(-7,-9),0,0)
+		PLTG BCD 5 Bright ThrustThingZ(0,Random(9,7),0,0)
+		PLTG D 0 Bright ThrustThingZ(0,0,0,0)
+		TNT1 A 0 A_PlaySoundEx("polt/throw","Auto")
+		Goto Missile
+	Missile:
+		PLTG D 0 Bright A_Facetarget
+		TNT1 A 0 A_Changeflag("NOGRAVITY",0)
+		TNT1 A 0 A_SpawnItemEx("Poltshot1",0,0,0,Random(25,45),0,Random(-6,-9))
+		TNT1 A 0 A_GiveInventory("PoltDeath", 1)
+		TNT1 A 0 A_Die
+		Stop
+	Death:
+		TNT1 A 0 A_JumpIfInventory("PoltDeath", 1, 8)
+		PLTG A 0 Bright A_Scream
+		TNT1 A 0 A_SpawnItemEx("poltshard1",0,0,random(3,5),random(-5,5),random(-5,5),random(1,3),0,0,30)
+		TNT1 A 0 A_SpawnItemEx("poltshard1",0,0,random(3,5),random(-5,5),random(-5,5),random(1,3),0,0,30)
+		TNT1 A 0 A_SpawnItemEx("poltshard1",0,0,random(3,5),random(-5,5),random(-5,5),random(1,3),0,0,30)
+		TNT1 A 0 A_SpawnItemEx("poltshard2",0,0,random(3,5),random(-5,5),random(-5,5),random(1,3),0,0,30)
+		TNT1 A 0 A_SpawnItemEx("poltshard2",0,0,random(3,5),random(-5,5),random(-5,5),random(1,3),0,0,30)
+		TNT1 A 0 A_SpawnItemEx("poltshard2",0,0,random(3,5),random(-5,5),random(-5,5),random(1,3),0,0,30)
+		TNT1 A 3
+		TNT1 A 7 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltshot1
+{
+Projectile
+Height 14
+Radius 8
+Speed 1
+FastSpeed 1
+Damage 3
++RANDOMIZE
+-FLOAT
+-NOGRAVITY
+DeathSound "polt/break1"
+States
+	{
+	Spawn:
+		PLTG BCD 3 Bright
+		Loop
+	Death:
+		PLTG A 0 Bright A_Scream
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 0 A_SpawnItemEx("poltshard1",0,0,random(3,5),random(-5,5),random(-5,5),random(1,3),0,0,30)
+		TNT1 A 0 A_SpawnItemEx("poltshard1",0,0,random(3,5),random(-5,5),random(-5,5),random(1,3),0,0,30)
+		TNT1 A 0 A_SpawnItemEx("poltshard1",0,0,random(3,5),random(-5,5),random(-5,5),random(1,3),0,0,30)
+		TNT1 A 0 A_SpawnItemEx("poltshard2",0,0,random(3,5),random(-5,5),random(-5,5),random(1,3),0,0,30)
+		TNT1 A 0 A_SpawnItemEx("poltshard2",0,0,random(3,5),random(-5,5),random(-5,5),random(1,3),0,0,30)
+		TNT1 A 0 A_SpawnItemEx("poltshard2",0,0,random(3,5),random(-5,5),random(-5,5),random(1,3),0,0,30)
+		TNT1 A 15
+		TNT1 A 1 A_PlaySoundEx ("polt/laugh", "Auto")
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor poltshard1
+{
+Radius 2
+Height 4
+Speed 2
+Mass 1
+RenderStyle Translucent
+Alpha 0.6
++MISSILE
++NOBLOCKMAP
++NOTELEPORT
++DONTSPLASH
++NOICEDEATH
+States
+	{
+	Spawn:
+		PLS1 ABC 4
+		PLS1 D 4
+		PLS1 ABC 4
+		PLS1 D 4 A_Jump(24,"DeathA")
+		PLS1 ABC 4
+		PLS1 D 4
+		PLS1 ABC 4
+		PLS1 D 4 A_Jump(24,"DeatB")
+		Loop
+	DeathA:
+		PLS1 C 5 A_Jump(80,"DeathA2")
+		TNT1 A 1
+		Stop
+	DeathB:
+		PLS1 D 5 A_Jump(80,"DeathB2")
+		TNT1 A 1
+		Stop
+	DeathA2:
+		PLS1 C 3 A_Jump(24,"DeathA2")
+		TNT1 A 1
+		Stop
+	DeathB2:
+		PLS1 D 5 A_Jump(24,"DeathB2")
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor poltshard2
+{
+Height 4
+Radius 2
+Speed 2
+Mass 1
+RenderStyle Translucent
+Alpha 0.6
++MISSILE
++NOBLOCKMAP
++NOTELEPORT
++DONTSPLASH
++NOICEDEATH
+States
+	{
+	Spawn:
+		PLS2 ADB 4
+		PLS2 C 4
+		PLS2 ADB 4
+		PLS2 C 4 A_Jump(24,"DeathA")
+		PLS2 ADB 4
+		PLS2 C 4
+		PLS2 ADB 4
+		PLS2 C 4 A_Jump(24,"DeathB")
+		Loop
+	DeathA:
+		PLS2 C 5 A_Jump(80,"DeathA2")
+		TNT1 A 1
+		Stop
+	DeathB:
+		PLS2 D 5 A_Jump(80,"DeathB2")
+		TNT1 A 1
+		Stop
+	DeathA2:
+		PLS2 C 3 A_Jump(24,"DeathA2")
+		TNT1 A 1
+		Stop
+	DeathB2:
+		PLS2 D 5 A_Jump(24,"DeathB2")
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor Poltergeist_2
+{
+Monster
+Health 20
+Height 42
+Radius 10
+Mass 45
+Speed 0
+Painchance 0
+Damage 20
++NOBLOOD
++DONTMORPH
++DONTSQUASH
+-NOGRAVITY
++NOPAIN
++NODAMAGE
+-SHOOTABLE
+DeathSound "world/barrelx"
+Obituary "%o was killed by a poltergeist."
+Tag "Poltergeist"
+States
+	{
+	Spawn:
+		BAR1 AB 6 A_LookEx(LOF_NOSOUNDCHECK,0,192,0,360)
+		Loop
+	See:
+		BAR1 A 1 A_ChangeFlag("NOGRAVITY",1)
+		BAR1 A 1 A_PlaySoundEx("polt/see","Auto")
+		BAR1 ABAB 6
+		BAR1 AAB 3 ThrustThingZ(0,Random(20,24),0,0)
+		BAR1 BBA 3 ThrustThingZ(0,Random(-7,-9),0,0)
+		BAR1 AAB 4 ThrustThingZ(0,Random(9, 7),0,0)
+		BAR1 BBA 4 ThrustThingZ(0,Random(-7,-9),0,0)
+		BAR1 AB 6 ThrustThingZ(0,Random(9,7),0,0)
+		BAR1 AB 6 ThrustThingZ(0,Random(-7,-9),0,0)
+		BAR1 AB 6 ThrustThingZ(0,Random(9,7),0,0)
+		TNT1 A 0 ThrustThingZ(0,0,0,0)
+		TNT1 A 0 A_PlaySoundEx("polt/throw","Auto")
+		Goto Missile
+	Missile:
+		BAR1 A 0 A_Facetarget
+		TNT1 A 0 A_Changeflag("NOGRAVITY",0)
+		TNT1 A 0 A_SpawnItemEx("Poltshot2",0,0,0,Random(25,45),0,Random(-6,-9))
+		TNT1 A 0 A_GiveInventory("PoltDeath", 1)
+		TNT1 A 0 A_Die
+		Stop
+	Death:
+		TNT1 A 0 A_JumpIfInventory("PoltDeath",1,7)
+		BEXP A 5 Bright
+		BEXP B 5 Bright A_Scream
+		BEXP C 5 Bright
+		BEXP D 5 Bright A_Explode
+		BEXP E 10 Bright
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltshot2
+{
+Projectile
+Height 42
+Radius 10
+Speed 1
+FastSpeed 1
+Damage 5
++RANDOMIZE
+-FLOAT
+-NOGRAVITY
+DeathSound "world/barrelx"
+States
+	{
+	Spawn:
+		BAR1 AB 6
+		Loop
+	Death:
+		BEXP A 5 Bright
+		BEXP B 5 Bright
+		BEXP C 5 Bright
+		BEXP D 5 Bright A_Explode
+		BEXP E 10 Bright
+		TNT1 A 15
+		TNT1 A 1 A_PlaySoundEx("polt/laugh","Auto")
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor PoltDeath : Inventory
+{
+Inventory.Amount 1
+Inventory.MaxAmount 1
+}
+
+// ammo poltergeists
+
+Actor Poltergeist_3
+{
+Monster
+Health 20
+Radius 5
+Height 11
+Mass 45
+Speed 0
+Painchance 0
+Damage 20
++NOBLOOD
++DONTMORPH
++DONTSQUASH
+-NOGRAVITY
++NOPAIN
++NODAMAGE
+-SHOOTABLE
+Obituary "%o was killed by a poltergeist."
+Tag "Poltergeist"
+States
+	{
+	Spawn:
+		CLIP A 6 A_LookEx(LOF_NOSOUNDCHECK,0,192,0,360)
+		CLIP A 6
+		Loop
+	See:
+		CLIP A 1 A_ChangeFlag("NOGRAVITY",1)
+		CLIP A 1 A_PlaySoundEx ("polt/see", "Auto")
+		CLIP AAAA 6
+		CLIP AAA 3 ThrustThingZ(0,Random(20,24),0,0)
+		CLIP AAA 3 ThrustThingZ(0,Random(-7,-9),0,0)
+		CLIP AAA 4 ThrustThingZ(0,Random(9,7),0,0)
+		CLIP AAA 4 ThrustThingZ(0,Random(-7,-9),0,0)
+		CLIP AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		CLIP AA 6 ThrustThingZ(0,Random(-7,-9),0,0)
+		CLIP AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		CLIP A 0 ThrustThingZ(0,0,0,0)
+		CLIP A 0 A_PlaySoundEx("polt/throw","Auto")
+		Goto Missile
+	Missile:
+		CLIP A 0 A_Facetarget
+		TNT1 A 0 A_Changeflag("NOGRAVITY",0)
+		TNT1 A 0 A_SpawnItemEx("Poltshot3",0,0,0,Random(25,45),0,Random(-6,-9))
+		TNT1 A 0 A_GiveInventory("PoltDeath",1)
+		TNT1 A 0 A_Die
+		Stop
+	Death:
+		TNT1 A 0 A_JumpIfInventory("PoltDeath",1,4)
+		TNT1 A 0 A_SpawnItemEx("Poltexplossmall2",0,0,4)
+		TNT1 A 3
+		TNT1 A 0 A_Explode (32, 64)
+		TNT1 A 3 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltshot3
+{
+Projectile
+Radius 5
+Height 11
+Speed 1
+FastSpeed 1
+Damage 5
++RANDOMIZE
+-FLOAT
+-NOGRAVITY
+States
+	{
+	Spawn:
+		CLIP AAA 3
+		Loop
+	Death:
+		TNT1 A 0 A_SpawnItemEx("Poltexplossmall2",0,0,4)
+		TNT1 A 3
+		TNT1 A 0 A_Explode(32,64)
+		TNT1 A 3 A_NoBlocking
+		TNT1 A 15
+		TNT1 A 1 A_PlaySoundEx("polt/laugh","Auto")
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltergeist_4
+{
+Monster
+Health 20
+Radius 14
+Height 16
+Mass 45
+Speed 0
+Painchance 0
+Damage 20
++NOBLOOD
++DONTMORPH
++DONTSQUASH
+-NOGRAVITY
++NOPAIN
++NODAMAGE
+-SHOOTABLE
+Obituary "%o was killed by a poltergeist."
+Tag "Poltergeist"
+States
+	{
+	Spawn:
+		"AMMO" A 6 A_LookEx(LOF_NOSOUNDCHECK,0,192,0,360)
+		"AMMO" A 6
+		Loop
+	See:
+		"AMMO" A 1 A_ChangeFlag("NOGRAVITY",1)
+		"AMMO" A 1 A_PlaySoundEx("polt/see","Auto")
+		"AMMO" AAAA 6
+		"AMMO" AAA 3 ThrustThingZ(0,Random(20,24),0,0)
+		"AMMO" AAA 3 ThrustThingZ(0,Random(-7,-9),0,0)
+		"AMMO" AAA 4 ThrustThingZ(0,Random(9,7),0,0)
+		"AMMO" AAA 4 ThrustThingZ(0,Random(-7,-9),0,0)
+		"AMMO" AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		"AMMO" AA 6 ThrustThingZ(0,Random(-7,-9),0,0)
+		"AMMO" AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		"AMMO" A 0 ThrustThingZ(0,0,0,0)
+		"AMMO" A 0 A_PlaySoundEx ("polt/throw", "Auto")
+		Goto Missile
+	Missile:
+		"AMMO" A 0 A_Facetarget
+		TNT1 A 0 A_Changeflag("NOGRAVITY",0)
+		TNT1 A 0 A_SpawnItemEx("Poltshot4",0,0,0,Random(25,45),0,Random (-6,-9))
+		TNT1 A 0 A_GiveInventory("PoltDeath", 1)
+		TNT1 A 0 A_Die
+		Stop
+	Death:
+		TNT1 A 0 A_JumpIfInventory("PoltDeath",1,4)
+		TNT1 A 0 A_SpawnItemEx("Poltexplossmall3",0,0,4)
+		TNT1 A 3
+		TNT1 A 0 A_Explode(32,64)
+		TNT1 A 3 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltshot4
+{
+Projectile
+Height 16
+Radius 14
+Speed 1
+FastSpeed 1
+Damage 5
++RANDOMIZE
+-FLOAT
+-NOGRAVITY
+States
+	{
+	Spawn:
+		AMMO AAA 3
+		Loop
+	Death:
+		TNT1 A 0 A_SpawnItemEx("Poltexplossmall3",0,0,4)
+		TNT1 A 3
+		TNT1 A 0 A_Explode(32,64)
+		TNT1 A 3 A_NoBlocking
+		TNT1 A 15
+		TNT1 A 1 A_PlaySoundEx("polt/laugh","Auto")
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltergeist_5
+{
+Monster
+Health 20
+Radius 8
+Height 7
+Mass 45
+Speed 0
+Painchance 0
+Damage 20
++NOBLOOD
++DONTMORPH
++DONTSQUASH
+-NOGRAVITY
++NOPAIN
++NODAMAGE
+-SHOOTABLE
+Obituary "%o was killed by a poltergeist."
+Tag "Poltergeist"
+States
+	{
+	Spawn:
+		SHEL A 6 A_LookEx(LOF_NOSOUNDCHECK,0,192,0,360)
+		SHEL A 6
+		Loop
+	See:
+		SHEL A 1 A_ChangeFlag("NOGRAVITY",1)
+		SHEL A 1 A_PlaySoundEx ("polt/see", "Auto")
+		SHEL AAAA 6
+		SHEL AAA 3 ThrustThingZ(0,Random(20,24),0,0)
+		SHEL AAA 3 ThrustThingZ(0,Random(-7,-9),0,0)
+		SHEL AAA 4 ThrustThingZ(0,Random(9,7),0,0)
+		SHEL AAA 4 ThrustThingZ(0,Random(-7,-9),0,0)
+		SHEL AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		SHEL AA 6 ThrustThingZ(0,Random(-7,-9),0,0)
+		SHEL AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		SHEL A 0 ThrustThingZ(0,0,0,0)
+		SHEL A 0 A_PlaySoundEx("polt/throw","Auto")
+		Goto Missile
+	Missile:
+		SHEL A 0 A_Facetarget
+		TNT1 A 0 A_Changeflag("NOGRAVITY",0)
+		TNT1 A 0 A_SpawnItemEx("Poltshot5",0,0,0,Random(25,45),0,Random(-6,-9))
+		TNT1 A 0 A_GiveInventory("PoltDeath",1)
+		TNT1 A 0 A_Die
+		Stop
+	Death:
+		TNT1 A 0 A_JumpIfInventory("PoltDeath",1,4)
+		TNT1 A 0 A_SpawnItemEx ("Poltexplossmall",0,0,4)
+		TNT1 A 3
+		TNT1 A 0 A_Explode(32,64)
+		TNT1 A 3 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltshot5
+{
+Projectile
+Height 7
+Radius 8
+Speed 1
+FastSpeed 1
+Damage 2
++RANDOMIZE
+-FLOAT
+-NOGRAVITY
+States
+	{
+	Spawn:
+		SHEL AAA 3
+		Loop
+	Death:
+		TNT1 A 0 A_SpawnItemEx("Poltexplossmall",0,0,4)
+		TNT1 A 3
+		TNT1 A 0 A_Explode(32,64)
+		TNT1 A 3 A_NoBlocking
+		TNT1 A 15
+		TNT1 A 1 A_PlaySoundEx("polt/laugh","Auto")
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltergeist_6
+{
+Monster
+Health 20
+Radius 16
+Height 12
+Mass 45
+Speed 0
+Painchance 0
+Damage 20
++NOBLOOD
++DONTMORPH
++DONTSQUASH
+-NOGRAVITY
++NOPAIN
++NODAMAGE
+-SHOOTABLE
+Obituary "%o was killed by a poltergeist."
+Tag "Poltergeist"
+States
+	{
+	Spawn:
+		SBOX A 6 A_LookEx(LOF_NOSOUNDCHECK,0,192,0,360)
+		SBOX A 6
+		Loop
+	See:
+		SBOX A 1 A_ChangeFlag("NOGRAVITY",1)
+		SBOX A 1 A_PlaySoundEx ("polt/see", "Auto")
+		SBOX AAAA 6
+		SBOX AAA 3 ThrustThingZ(0,Random(20,24),0,0)
+		SBOX AAA 3 ThrustThingZ(0,Random(-7,-9),0,0)
+		SBOX AAA 4 ThrustThingZ(0,Random(9,7),0,0)
+		SBOX AAA 4 ThrustThingZ(0,Random(-7,-9),0,0)
+		SBOX AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		SBOX AA 6 ThrustThingZ(0,Random(-7,-9),0,0)
+		SBOX AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		SBOX A 0 ThrustThingZ(0,0,0,0)
+		SBOX A 0 A_PlaySoundEx ("polt/throw", "Auto")
+		Goto Missile
+	Missile:
+		SBOX A 0 A_Facetarget
+		TNT1 A 0 A_Changeflag("NOGRAVITY",0)
+		TNT1 A 0 A_SpawnItemEx("Poltshot6",0,0,0,Random(25,45),0,Random(-6,-9))
+		TNT1 A 0 A_GiveInventory("PoltDeath", 1)
+		TNT1 A 0 A_Die
+		Stop
+	Death:
+		TNT1 A 0 A_JumpIfInventory("PoltDeath",1,4)
+		TNT1 A 0 A_SpawnItemEx ("Poltexplossmall3",0,0,4)
+		TNT1 A 3
+		TNT1 A 0 A_Explode(32,64)
+		TNT1 A 3 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltshot6
+{
+Projectile
+Height 12
+Radius 16
+Speed 1
+FastSpeed 1
+Damage 5
++RANDOMIZE
+-FLOAT
+-NOGRAVITY
+States
+	{
+	Spawn:
+		SBOX AAA 10
+		Loop
+	Death:
+		TNT1 A 0 A_SpawnItemEx("Poltexplossmall3",0,0,4)
+		TNT1 A 3
+		TNT1 A 0 A_Explode(32,64)
+		TNT1 A 3 A_NoBlocking
+		TNT1 A 15
+		TNT1 A 1 A_PlaySoundEx("polt/laugh","Auto")
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltergeist_7
+{
+Monster
+Health 20
+Radius 9
+Height 12
+Mass 45
+Speed 0
+Painchance 0
+Damage 20
++NOBLOOD
++DONTMORPH
++DONTSQUASH
+-NOGRAVITY
++NOPAIN
++NODAMAGE
+-SHOOTABLE
+DeathSound "weapons/plasmaf"
+Obituary "%o was killed by a poltergeist."
+Tag "Poltergeist"
+States
+	{
+	Spawn:
+		CELL A 6 A_LookEx(LOF_NOSOUNDCHECK,0,192,0,360)
+		CELL A 6
+		Loop
+	See:
+		CELL A 1 A_ChangeFlag("NOGRAVITY",1)
+		CELL A 1 A_PlaySoundEx ("polt/see", "Auto")
+		CELL AAAA 6
+		CELL AAA 3 ThrustThingZ(0,Random(20,24),0,0)
+		CELL AAA 3 ThrustThingZ(0,Random(-7,-9),0,0)
+		CELL AAA 4 ThrustThingZ(0,Random(9,7),0,0)
+		CELL AAA 4 ThrustThingZ(0,Random(-7,-9),0,0)
+		CELL AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		CELL AA 6 ThrustThingZ(0,Random(-7,-9),0,0)
+		CELL AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		CELL A 0 ThrustThingZ(0,0,0,0)
+		CELL A 0 A_PlaySoundEx("polt/throw","Auto")
+		Goto Missile
+	Missile:
+		CELL A 0 A_Facetarget
+		TNT1 A 0 A_Changeflag("NOGRAVITY",0)
+		TNT1 A 0 A_SpawnItemEx("Poltshot7",0,0,0,Random(25,45),0,Random(-6,-9))
+		TNT1 A 0 A_GiveInventory("PoltDeath", 1)
+		TNT1 A 0 A_Die
+		Stop
+	Death:
+		TNT1 A 0 A_JumpIfInventory("PoltDeath",1,10)
+		CELL A 0 A_Scream
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 3
+		TNT1 A 7 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltshot7
+{
+Projectile
+Height 12
+Radius 9
+Speed 1
+FastSpeed 1
+Damage 5
++RANDOMIZE
+-FLOAT
+-NOGRAVITY
+DeathSound "weapons/plasmaf"
+States
+	{
+	Spawn:
+		CELL AAA 3
+		Loop
+	Death:
+		CELL A 0 A_Scream
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 0 A_SpawnItemEx("PlasmaBall",0,0,11,25,0,0,random(-255,255))
+		TNT1 A 15
+		TNT1 A 1 A_PlaySoundEx ("polt/laugh", "Auto")
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltergeist_8
+{
+Monster
+Health 20
+Radius 16
+Height 21
+Mass 45
+Speed 0
+Painchance 0
+Damage 20
++NOBLOOD
++DONTMORPH
++DONTSQUASH
+-NOGRAVITY
++NOPAIN
++NODAMAGE
+-SHOOTABLE
+Obituary "%o was killed by a poltergeist."
+Tag "Poltergeist"
+States
+	{
+	Spawn:
+		CELP A 6 A_LookEx(LOF_NOSOUNDCHECK,0,192,0,360)
+		CELP A 6
+		Loop
+	See:
+		CELP A 1 A_ChangeFlag("NOGRAVITY",1)
+		CELP A 1 A_PlaySoundEx ("polt/see", "Auto")
+		CELP AAAA 6
+		CELP AAA 3 ThrustThingZ(0,Random(20,24),0,0)
+		CELP AAA 3 ThrustThingZ(0,Random(-7,-9),0,0)
+		CELP AAA 4 ThrustThingZ(0,Random(9,7),0,0)
+		CELP AAA 4 ThrustThingZ(0,Random(-7,-9),0,0)
+		CELP AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		CELP AA 6 ThrustThingZ(0,Random(-7,-9),0,0)
+		CELP AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		CELP A 0 ThrustThingZ(0,0,0,0)
+		CELP A 0 A_PlaySoundEx("polt/throw","Auto")
+		Goto Missile
+	Missile:
+		CELP A 0 A_Facetarget
+		TNT1 A 0 A_Changeflag("NOGRAVITY",0)
+		TNT1 A 0 A_SpawnItemEx("Poltshot8",0,0,0,Random(25,45),0,Random(-6,-9))
+		TNT1 A 0 A_GiveInventory("PoltDeath", 1)
+		TNT1 A 0 A_Die
+		Stop
+	Death:
+		TNT1 A 0 A_JumpIfInventory("PoltDeath",1,7)
+		PL1D A 3 bright
+		PL1D A 0 bright A_SpawnItemEx("PoltexplosPL",0,0,0)
+		PL1D B 3 bright
+		PL1D C 3 bright A_Explode (320,196)
+		PL1D DE 3 bright
+		TNT1 A 3
+		TNT1 A 7 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltshot8
+{
+Projectile
+Radius 16
+Height 21
+Speed 1
+FastSpeed 1
+Damage 5
++RANDOMIZE
+-FLOAT
+-NOGRAVITY
+States
+	{
+	Spawn:
+		CELP AAA 3
+		Loop
+	Death:
+		PL1D A 3 bright
+		PL1D A 0 bright A_SpawnItemEx("PoltexplosPL",0,0,0)
+		PL1D B 3 bright
+		PL1D C 3 bright A_Explode(320,196)
+		PL1D DE 3 bright
+		TNT1 A 3 A_NoBlocking
+		TNT1 A 15
+		TNT1 A 1 A_PlaySoundEx("polt/laugh","Auto")
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltergeist_9
+{
+Monster
+Health 10
+Radius 7
+Height 28
+Mass 45
+Speed 0
+Painchance 0
+Damage 20
++NOBLOOD
++DONTMORPH
++DONTSQUASH
+-NOGRAVITY
++NOPAIN
++NODAMAGE
+-SHOOTABLE
+DeathSound "weapons/rocklx"
+Obituary "%o was killed by a poltergeist."
+Tag "Poltergeist"
+States
+	{
+	Spawn:
+		ROCK A 6 A_LookEx(LOF_NOSOUNDCHECK,0,192,0,360)
+		ROCK A 6
+		Loop
+	See:
+		ROCK A 1 A_ChangeFlag("NOGRAVITY",1)
+		ROCK A 1 A_PlaySoundEx("polt/see","Auto")
+		ROCK AAAA 6
+		ROCK AAA 3 ThrustThingZ(0,Random(20,24),0,0)
+		ROCK AAA 3 ThrustThingZ(0,Random(-7,-9),0,0)
+		ROCK AAA 4 ThrustThingZ(0,Random(9,7),0,0)
+		ROCK AAA 4 ThrustThingZ(0,Random(-7,-9),0,0)
+		ROCK AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		ROCK AA 6 ThrustThingZ(0,Random(-7,-9),0,0)
+		ROCK AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		ROCK A 0 ThrustThingZ(0,0,0,0)
+		ROCK A 0 A_PlaySoundEx("polt/throw","Auto")
+		Goto Missile
+	Missile:
+		ROCK A 0 A_Facetarget
+		TNT1 A 0 A_Changeflag("NOGRAVITY",0)
+		TNT1 A 0 A_SpawnItemEx("Poltshot9",0,0,0,Random(25,45),0,Random(-6,-9))
+		TNT1 A 0 A_GiveInventory("PoltDeath",1)
+		TNT1 A 0 A_Die
+		Stop
+	Death:
+		TNT1 A 0 A_JumpIfInventory("PoltDeath",1,5)
+		TNT1 A 0 A_Scream
+		MISL B 8 Bright A_Explode
+		MISL C 6 Bright
+		MISL D 4 Bright
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltshot9
+{
+Projectile
+Height 28
+Radius 6
+Speed 1
+FastSpeed 1
+Damage 20
++RANDOMIZE
+-FLOAT
+-NOGRAVITY
+DeathSound "weapons/rocklx"
+States
+	{
+	Spawn:
+		ROCK AAA 3
+		Loop
+	Death:
+		MISL B 8 Bright A_Explode
+		MISL C 6 Bright
+		MISL D 4 Bright
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 15
+		TNT1 A 1 A_PlaySoundEx("polt/laugh","Auto")
+		TNT1 A 175
+		Stop
+	}
+}
+
+
+Actor PoltexplosPL
+{
+Height 1
+Radius 1
+Scale 0.75
+-FLOAT
+-NOGRAVITY
+DeathSound "bigplasma/explode"
+States
+	{
+	Spawn:
+		TNT1 A 0
+		Goto Death
+	Death:
+		PLTX A 4 Bright A_Scream
+		PLTX BCDEF 4 Bright
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltexplos
+{
+Height 1
+Radius 1
+DeathSound "weapons/rocklx"
+-FLOAT
+-NOGRAVITY
+States
+	{
+	Spawn:
+		TNT1 A 0
+		Goto Death
+	Death:
+		MISL B 8 Bright A_Scream
+		MISL C 6 Bright
+		MISL D 4 Bright
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltexplossmall
+{
+Height 1
+Radius 1
+Scale 0.25
+-FLOAT
+-NOGRAVITY
+DeathSound "weapons/rocklx"
+States
+	{
+	Spawn:
+		TNT1 A 0
+		Goto Death
+	Death:
+		MISL B 8 Bright A_Scream
+		MISL C 6 Bright
+		MISL D 4 Bright
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltexplossmall2
+{
+Height 1
+Radius 1
+Scale 0.15
+-FLOAT
+-NOGRAVITY
+DeathSound "weapons/rocklx"
+States
+	{
+	Spawn:
+		TNT1 A 0
+		Goto Death
+	Death:
+		MISL B 8 Bright A_Scream
+		MISL C 6 Bright
+		MISL D 4 Bright
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltexplossmall3
+{
+Height 1
+Radius 1
+Scale 0.4
+-FLOAT
+-NOGRAVITY
+DeathSound "weapons/rocklx"
+States
+	{
+	Spawn:
+		TNT1 A 0
+		Goto Death
+	Death:
+		MISL B 8 Bright A_Scream
+		MISL C 6 Bright
+		MISL D 4 Bright
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltergeist_10
+{
+Monster
+Health 20
+Height 21
+Radius 27
+Mass 45
+Speed 0
+Painchance 0
+Damage 20
++NOBLOOD
++DONTMORPH
++DONTSQUASH
+-NOGRAVITY
++NOPAIN
++NODAMAGE
+-SHOOTABLE
+DeathSound "polt/break1"
+Obituary "%o was killed by a poltergeist."
+Tag "Poltergeist"
+States
+	{
+	Spawn:
+		BROK A 6 A_LookEx(LOF_NOSOUNDCHECK,0,192,0,360)
+		BROK A 6
+		Loop
+	See:
+		BROK A 1 A_ChangeFlag("NOGRAVITY",1)
+		BROK A 1 A_PlaySoundEx ("polt/see", "Auto")
+		BROK AAAA 6
+		BROK AAA 3 ThrustThingZ(0,Random(20,24),0,0)
+		BROK AAA 3 ThrustThingZ(0,Random(-7,-9),0,0)
+		BROK AAA 4 ThrustThingZ(0,Random(9,7),0,0)
+		BROK AAA 4 ThrustThingZ(0,Random(-7,-9),0,0)
+		BROK AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		BROK AA 6 ThrustThingZ(0,Random(-7,-9),0,0)
+		BROK AA 6 ThrustThingZ(0,Random(9,7),0,0)
+		BROK A 0 ThrustThingZ(0,0,0,0)
+		BROK A 0 A_PlaySoundEx("polt/throw","Auto")
+		Goto Missile
+	Missile:
+		BROK A 0 A_Facetarget
+		TNT1 A 0 A_Changeflag("NOGRAVITY",0)
+		TNT1 A 0 A_SpawnItemEx("Poltshot10",0,0,0,Random(25,45),0,Random(-6,-9))
+		TNT1 A 0 A_GiveInventory("PoltDeath",1)
+		TNT1 A 0 A_Die
+		Stop
+	Death:
+		TNT1 A 0 A_JumpIfInventory("PoltDeath",1,8)
+		BROK A 0 A_Explode(320,196)
+		BROK A 0 A_NoBlocking
+		BROK A 3 A_SpawnItemEx("Poltexplos",random(-36,36),random(-36,36),random(0,21))
+		BROK A 3 A_SpawnItemEx("Poltexplos",random(-36,36),random(-36,36),random(0,21))
+		BROK A 3 A_SpawnItemEx("Poltexplos",random(-36,36),random(-36,36),random(0,21))
+		BROK A 3 A_SpawnItemEx("Poltexplos",random(-36,36),random(-36,36),random(0,21))
+		BROK A 3 A_SpawnItemEx("Poltexplos",random(-36,36),random(-36,36),random(0,21))
+		TNT1 A 3
+		TNT1 A 175
+		Stop
+	}
+}
+
+Actor Poltshot10
+{
+Projectile
+Height 21
+Radius 27
+Speed 1
+FastSpeed 1
+Damage 10
++RANDOMIZE
+-FLOAT
+-NOGRAVITY
+States
+	{
+	Spawn:
+		BROK AAA 3
+		Loop
+	Death:
+		BROK A 0 A_Explode(320,196)
+		BROK A 0 A_NoBlocking
+		BROK A 3 A_SpawnItemEx("Poltexplos",random(-36,36),random(-36,36),random(0,21))
+		BROK A 3 A_SpawnItemEx("Poltexplos",random(-36,36),random(-36,36),random(0,21))
+		BROK A 3 A_SpawnItemEx("Poltexplos",random(-36,36),random(-36,36),random(0,21))
+		BROK A 3 A_SpawnItemEx("Poltexplos",random(-36,36),random(-36,36),random(0,21))
+		BROK A 3 A_SpawnItemEx("Poltexplos",random(-36,36),random(-36,36),random(0,21))
+		TNT1 A 15
+		TNT1 A 1 A_PlaySoundEx("polt/laugh","Auto")
+		TNT1 A 175
+		Stop
+	}
+}

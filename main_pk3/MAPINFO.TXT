@@ -1,0 +1,363 @@
+map MAP01 "Nazi Catacombs"
+{
+	LevelNum = 1
+	Next = MAP02
+	SKY1 = sky3
+	Music = mapmus01
+	ExitPic = INTER1
+	InterMusic = interm01
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP02 "Late Invasion"
+{
+	LevelNum = 2
+	Next = MAP03
+	SKY1 = RSKY1
+	Music = mapmus02
+	ExitPic = INTER2
+	InterMusic = interm02
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP03 "Canyon"
+{
+	LevelNum = 3
+	Next = MAP04
+	SKY1 = F_SKY1
+	Music = mapmus03
+	ExitPic = INTER3
+	InterMusic = interm03
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP04 "BFG Testing Facility"
+{
+	LevelNum = 4
+	Next = MAP05
+	SKY1 = RSKY1
+	Music = mapmus04
+	ExitPic = INTER4
+	InterMusic = interm04
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP05 "The Way of the Dragon"
+{
+	LevelNum = 5
+	Next = MAP06
+	SKY1 = nm_sky00
+	Music = mapmus05
+	ExitPic = INTER5
+	InterMusic = interm05
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP06 "Kingdom of Hell"
+{
+	LevelNum = 6
+	Next = MAP07
+	SKY1 = RSKY1
+	Music = mapmus06
+	InterMusic = interm06
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP07 "Test of Strength"
+{
+	LevelNum = 7
+	Next = MAP08
+	SKY1 = RSKY1
+	Music = mapmus07
+	InterMusic = interm07
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP08 "Trapped"
+{
+	LevelNum = 8
+	Next = MAP09
+	SKY1 = RSKY1
+	Music = mapmus08
+	InterMusic = interm08
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP09 "Outside"
+{
+	LevelNum = 9
+	Next = MAP10
+	SKY1 = nm_sky01
+	Music = mapmus09
+	InterMusic = interm09
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP10 "No Chemistry"
+{
+	LevelNum = 10
+	Next = MAP11
+	SKY1 = RSKY1
+	Music = mapmus10
+	InterMusic = interm10
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP11 "Range"
+{
+	LevelNum = 11
+	Next = MAP12
+	SKY1 = RSKY2
+	Music = mapmus11
+	ExitPic = INTER11
+	InterMusic = interm11
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP12 "Nazi Experemental Base"
+{
+	LevelNum = 12
+	Next = MAP13
+	SKY1 = RSKY1
+	Music = mapmus12
+	InterMusic = interm12
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP13 "End in Hell"
+{
+	LevelNum = 13
+	Next = MAP14
+	SKY1 = RSKY3
+	Music = mapmus13
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP14 "End in Hell"
+{
+	LevelNum = 14
+	Next = MAP15
+	SKY1 = sky3
+	Music = mapmus14
+	InterMusic = interm14
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP15 "End in Hell"
+{
+	LevelNum = 15
+	Next = MAP16
+	SKY1 = sky3
+	Music = mapmus15
+	InterMusic = interm13
+	CheckSwitchRange
+}
+
+map MAP16 "Three Circles of Hell"
+{
+	LevelNum = 16
+	Next = MAP31
+	SKY1 = sky3
+	Music = mapmus16
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP17 "End in Hell"
+{
+	LevelNum = 17
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP18 "End in Hell"
+{
+	LevelNum = 18
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP19 "End in Hell"
+{
+	LevelNum = 19
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP20 "End in Hell"
+{
+	LevelNum = 20
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP21 "End in Hell"
+{
+	LevelNum = 21
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP22 "End in Hell"
+{
+	LevelNum = 22
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP23 "End in Hell"
+{
+	LevelNum = 23
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP24 "End in Hell"
+{
+	LevelNum = 24
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP25 "End in Hell"
+{
+	LevelNum = 25
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP26 "End in Hell"
+{
+	LevelNum = 26
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP27 "End in Hell"
+{
+	LevelNum = 27
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP28 "End in Hell"
+{
+	LevelNum = 28
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP29 "End in Hell"
+{
+	LevelNum = 29
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}
+
+map MAP30 "End in Hell"
+{
+	LevelNum = 30
+	Next = MAP01
+	SKY1 = RSKY3
+	Music = D_DM2TTL
+	InterMusic = interm13
+	NoJump
+	NoCrouch
+	CheckSwitchRange
+}

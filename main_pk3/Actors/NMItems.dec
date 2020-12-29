@@ -1,0 +1,251 @@
+Actor MarkerItem : Inventory { Inventory.MaxAmount 1 Inventory.InterHubAmount 1 }
+Actor NMCounterItem : Inventory { Inventory.MaxAmount 2 Inventory.InterHubAmount 2 }
+Actor NMSpawnerTic : Inventory { Inventory.MaxAmount 999999 Inventory.InterHubAmount 0 }
+
+Actor ExtraAmbushFlag : CustomInventory
+{
+-COUNTITEM
++INVENTORY.QUIET
++INVENTORY.UNDROPPABLE
++INVENTORY.ALWAYSPICKUP
++INVENTORY.AUTOACTIVATE
+inventory.amount 1
+inventory.maxamount 0
+Tag "AMBUSH"
+States
+	{
+	Pickup:
+		TNT1 A 0
+		TNT1 A 0 A_ChangeFlag("AMBUSH",1)
+		Stop
+	}
+}
+
+Actor NMMonstersAlerter : CustomInventory
+{
+-COUNTITEM
++INVENTORY.QUIET
++INVENTORY.UNDROPPABLE
++INVENTORY.ALWAYSPICKUP
++INVENTORY.AUTOACTIVATE
+-INVENTORY.INVBAR
+Inventory.Amount 1
+Inventory.MaxAmount 0
+Tag "Ghost"
+States
+	{
+	Pickup:
+		TNT1 A 0
+		TNT1 A 0 A_ChangeFlag(AMBUSH,0)
+		TNT1 A 0 A_AlertMonsters
+		Stop
+	}
+}
+//==============================================================================
+Actor SentryGun
+{
+Monster
+Health 250
+Radius 20
+Height 56
+Mass 100000
+Speed 0
+MaxTargetRange 2048
+MinMissileChance 80
+-COUNTKILL
++FRIENDLY
++FLOORCLIP
++NOFEAR
++NOBLOOD
++NOPAIN
++NORADIUSDMG
++NOICEDEATH
++CANTSEEK
++STANDSTILL
++LOOKALLAROUND
++ALWAYSFAST
++MISSILEMORE
++MISSILEEVENMORE
++QUICKTORETALIATE
++NEVERRESPAWN
++THRUSPECIES
++MTHRUSPECIES
++DONTHARMCLASS
++DONTHARMSPECIES
++NOTAUTOAIMED
+-SOLID
+DamageFactor 0.25
+RadiusDamageFactor 0.25
+DamageFactor "BFGSplash", 0.0
+DamageFactor "UpBFGSplash", 0.0
+DamageFactor "DrainLife", 0.0
+DamageFactor "Poison", 0.0
+DamageFactor "PoisonCloud", 0.0
+Attacksound ""
+Obituary "%o was ventilated by an auto-sentry."
+Tag "Auto-sentry Gun"
+var int user_ammo;
+States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 A_GiveInventory("IsAnSentryGun",1)
+		TNT1 A 0 A_SetUserVar("user_ammo",400)
+		Goto Idle
+	Idle:
+		SENT AAAAAAAAAAAAAAAA 4 A_LookEx(0,0,2048,2048,360,"See")
+		TNT1 A 0 A_PlaySound("NMSentry/Active")
+		Loop
+	See:
+		SENT AAAAAAAAAAAAAAAA 4 A_Chase
+		TNT1 A 0 A_PlaySound("NMSentry/Active")
+		Loop
+	WrongTarget:
+		TNT1 A 0 A_ClearTarget
+		SENT A 2 A_ChangeFlag(FRIENDLY,1)
+		Goto See
+	Missile:
+		TNT1 A 0 A_GiveInventory("NMSentryGunAlarm",1)
+		SENT AAAAAAAA 2 A_FaceTarget(45)
+	Refire:
+		TNT1 A 0 A_CheckFlag("FRIENDLY","WrongTarget",AAPTR_TARGET)
+		TNT1 A 0 A_CheckFlag("INVULNERABLE","WrongTarget",AAPTR_TARGET)
+		TNT1 A 0 A_CheckFlag("NODAMAGE","WrongTarget",AAPTR_TARGET)
+		TNT1 A 0 A_JumpIfInTargetInventory("IsAnSentryGun",1,"WrongTarget")
+		TNT1 A 0 A_SetUserVar("user_ammo",user_ammo-2)
+		TNT1 A 0 A_JumpIf(user_ammo < 1,"Death")
+		TNT1 A 0 A_PlaySound("NMSentry/Attack",CHAN_WEAPON,1.0,false)
+		SENT B 2 Bright A_CustomBulletAttack(1.0,1.0,1,random(1,5)*15,"SentryGunBulletPuff",2048,CBAF_NORANDOM)
+		SENT A 2 A_FaceTarget(45)
+		TNT1 A 0 A_PlaySound("NMSentry/Attack",CHAN_WEAPON,1.0,false)
+		SENT B 2 Bright A_CustomBulletAttack(1.0,1.0,1,random(1,5)*15,"SentryGunBulletPuff",2048,CBAF_NORANDOM)
+		SENT A 2 A_FaceTarget(45)
+		TNT1 A 0 A_MonsterRefire(0,"See")
+		Loop
+	Death:
+		SENT C 1 A_PlaySound("NMSentry/Death",5)
+		TNT1 A 0 A_PlaySound("weapons/rocklx",6)
+		TNT1 A 0 A_SpawnItem("SentryBoom",0,48)
+		SENT C 525
+		"####" "###########" 2 A_FadeOut(0.1,1)
+		Stop
+	}
+}
+
+Actor NMSentryGunAlarm : CustomInventory
+{
+-COUNTITEM
++NOTIMEFREEZE
++INVENTORY.QUIET
++INVENTORY.UNDROPPABLE
++INVENTORY.ALWAYSPICKUP
++INVENTORY.AUTOACTIVATE
+-INVENTORY.INVBAR
+Inventory.Amount 1
+Inventory.MaxAmount 0
+States
+	{
+	Pickup:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIfInventory("NMSoundAlarmCooldown",1,"Nop")
+		TNT1 A 0 A_GiveInventory("NMSoundAlarmCooldown",1)
+	Alarm:
+		TNT1 A 0 A_PlaySound("NMSentry/See",5)
+		Stop
+	Nop:
+		TNT1 A 0
+		Stop
+	}
+}
+
+Actor NMSoundAlarmCooldown : PowerDamage
+{
+DamageFactor "nothing", 1.0
+Powerup.duration -5
+}
+
+Actor IsAnSentryGun : Inventory { Inventory.MaxAmount 1 }
+
+Actor SentryGunBulletPuff : BulletPuff
+{
++MTHRUSPECIES
++PUFFGETSOWNER
+DamageType "Bullet"
+}
+
+Actor SentryBoom
+{
+Radius 2
+Height 2
+RenderStyle Add
++DONTBLAST
++NOTELEPORT
++NOINTERACTION
++CLIENTSIDEONLY
++NONETID
+States
+	{
+	Spawn:
+		TNT1 A 0
+		XPL1 ABCDEF 3 Bright
+		Stop
+	}
+}
+
+Actor SentryBox : CustomInventory 32765
+{
+//$Category Ammunition
+//$Sprite SENBA0
+//$Title "Sentry Gun Box"
++COUNTITEM
++INVENTORY.INVBAR
+Inventory.MaxAmount 1
+Inventory.RespawnTics 4200
+Inventory.Icon "SENBB0"
+Inventory.PickupMessage "You picked up a sentry gun!"
+Tag "Sentry Gun Box"
+States
+	{
+	Spawn:
+		SENB A -1
+		Stop
+	Use:
+		TNT1 A 0
+		TNT1 A 0 A_GiveInventory("IsAnSentryGun")
+		TNT1 A 0 A_SpawnItemEx("SentryGun",56,0,10,0,0,0,0,SXF_SETMASTER,0)
+		Stop
+	}
+}
+//==============================================================================
+Actor AmmoBelt : CustomInventory 32766
+{
+//$Category Ammunition
+//$Sprite ABLTA0
+//$Title "Ammo Belt"
+Scale 1.4
++COUNTITEM
++INVENTORY.ALWAYSPICKUP
+Inventory.PickupSound "misc/i_pkup"
+Inventory.PickupMessage "You got an ammo belt"
+States
+	{
+	Spawn:
+		ABLT A -1
+		Stop
+	Pickup:
+		TNT1 A 0
+		TNT1 A 0 Healthing(1,200)
+		TNT1 A 0 ACS_NamedExecuteAlways("NM_AmmoBelt",0)
+		Stop
+	}
+}
+
+Actor AmmoBeltArmor : BasicArmorBonus
+{
+-COUNTITEM
++INVENTORY.QUIET
+Armor.SavePercent 33.33333
+Armor.SaveAmount 1
+Armor.MaxSaveAmount 200
+Inventory.Icon "ARM1A0"
+}

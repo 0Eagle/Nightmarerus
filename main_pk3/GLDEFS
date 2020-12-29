@@ -1,0 +1,326 @@
+FLICKERLIGHT LegendaryRune1
+{
+Color 0.8 0.4 0
+OffSet 0 8 0
+Size 20
+SecondarySize 35
+Chance 0.2
+}
+
+OBJECT LegendaryRune
+{
+Frame LGRNA { Light LegendaryRune1 }	
+}
+
+FLICKERLIGHT LegendarySphere1
+{
+Color 0.8 0.4 0
+OffSet 0 8 0
+Size 15
+SecondarySize 25
+Chance 0.2
+}
+
+OBJECT LegendarySphere
+{
+Frame LSPH { Light LegendarySphere1 }	
+}
+
+FLICKERLIGHT SmallLegLightPlayer 
+{
+Color 0.8 0.4 0
+OffSet 0 0 0
+Size 20
+SecondarySize 20
+Chance 1
+}
+
+OBJECT LPlayerSmoke 
+{
+Frame LMKEA { Light SmallLegLightPlayer }
+Frame LMKEB { Light SmallLegLightPlayer }
+Frame LMKEC { Light SmallLegLightPlayer }
+Frame LMKED { Light SmallLegLightPlayer }
+Frame LMKEE { Light SmallLegLightPlayer }
+Frame LMKEF { Light SmallLegLightPlayer }
+Frame LMKEG { Light SmallLegLightPlayer }
+Frame LMKEH { Light SmallLegLightPlayer }
+Frame LMKEI { Light SmallLegLightPlayer }
+Frame LMKEJ { Light SmallLegLightPlayer }
+Frame LMKEK { Light SmallLegLightPlayer }
+Frame LMKEL { Light SmallLegLightPlayer }
+}
+
+object SentryGun
+{
+frame SENTB { light ZOMBIEATK }
+}
+
+FLICKERLIGHT SentryGunPuffLight
+{
+Color 0.8 0.6 0
+OffSet 0 0 0
+Size 6
+SecondarySize 8
+Chance 0.3
+}
+
+object SentryGunBulletPuff
+{
+Frame PUFFA { Light SentryGunPuffLight }
+Frame PUFFB { Light SentryGunPuffLight }
+}
+
+object SentryBoom
+{
+Frame XPL1A { light ROCKET }
+Frame XPL1B { light ROCKET_X1 }
+Frame XPL1C { light ROCKET_X2 }
+Frame XPL1D { light ROCKET_X3 }
+}
+
+//Poltergeist
+pulselight POLTCANDLE
+{
+color 1.0 1.0 0.0
+size 8
+secondarySize 12
+interval 1.0
+offset 0 0 0
+}
+
+Object Poltergeist_1
+{
+frame PLTGB { light POLTCANDLE }
+frame PLTGC { light POLTCANDLE }
+frame PLTGD { light POLTCANDLE }
+}
+
+object Poltshot1
+{
+frame PLTGB { light POLTCANDLE }
+frame PLTGC { light POLTCANDLE }
+frame PLTGD { light POLTCANDLE }
+}
+
+Flickerlight PoltExplA1
+{
+Color 1.0 0.6 0.0
+Size 56
+SecondarySize 72
+}
+
+Flickerlight PoltExplA2
+{
+Color 0.6 0.1 0.0
+Size 72
+SecondarySize 88
+}
+
+Flickerlight PoltExplA3
+{
+Color 0.4 0.0 0.0
+Size 88
+SecondarySize 104
+}
+
+pulselight PoltBar
+{
+color 0.0 0.5 0.0
+size 20
+secondarySize 21
+interval 0.5
+offset 0 36 0
+dontlightself 1
+}
+
+Object Poltergeist_2
+{
+Frame BAR1A { Light PoltBar }
+Frame BAR1B { Light PoltBar }
+Frame BEXPA { Light PoltExplA1 }
+Frame BEXPB { Light PoltExplA1 }
+Frame BEXPC { Light PoltExplA2 }
+Frame BEXPD { Light PoltExplA3 }
+Frame BEXPE { Light PoltExplA3 }
+}
+
+Object Poltshot2
+{
+Frame BAR1A { Light PoltBar }
+Frame BAR1B { Light PoltBar }
+Frame BEXPA { Light PoltExplA1 }
+Frame BEXPB { Light PoltExplA1 }
+Frame BEXPC { Light PoltExplA2 }
+Frame BEXPD { Light PoltExplA3 }
+Frame BEXPE { Light PoltExplA3 }
+}
+
+Object Poltergeist_9
+{
+Frame MISLB { Light PoltExplA1 }
+Frame MISLC { Light PoltExplA2 }
+Frame MISLD { Light PoltExplA3 }
+}
+
+Object Poltshot9
+{
+Frame MISLB { Light PoltExplA1 }
+Frame MISLC { Light PoltExplA2 }
+Frame MISLD { Light PoltExplA3 }
+}
+
+Object Poltexplos
+{
+Frame MISLB { Light PoltExplA1 }
+Frame MISLC { Light PoltExplA2 }
+Frame MISLD { Light PoltExplA3 }
+}
+
+Flickerlight PoltExplB1
+{
+Color 1.0 0.6 0.0
+Size 14
+SecondarySize 18
+}
+
+Flickerlight PoltExplB2
+{
+Color 0.6 0.1 0.0
+Size 18
+SecondarySize 22
+}
+
+Flickerlight PoltExplB3
+{
+Color 0.4 0.0 0.0
+Size 22
+SecondarySize 26
+}
+
+Object Poltexplossmall
+{
+Frame MISLB { Light PoltExplB1 }
+Frame MISLC { Light PoltExplB2 }
+Frame MISLD { Light PoltExplB3 }
+}
+
+Flickerlight PoltExplC1
+{
+Color 1.0 0.6 0.0
+Size 8
+SecondarySize 11
+}
+
+Flickerlight PoltExplC2
+{
+Color 0.6 0.1 0.0
+Size 11
+SecondarySize 13
+}
+
+Flickerlight PoltExplC3
+{
+Color 0.4 0.0 0.0
+Size 12
+SecondarySize 16
+}
+
+Object Poltexplossmall2
+{
+Frame MISLB { Light PoltExplC1 }
+Frame MISLC { Light PoltExplC2 }
+Frame MISLD { Light PoltExplC3 }
+}
+
+Flickerlight PoltExplD1
+{
+Color 1.0 0.6 0.0
+Size 22
+SecondarySize 29
+}
+
+Flickerlight PoltExplD2
+{
+Color 0.6 0.1 0.0
+Size 29
+SecondarySize 35
+}
+
+Flickerlight PoltExplD3
+{
+Color 0.4 0.0 0.0
+Size 35
+SecondarySize 42
+}
+
+Object Poltexplossmall3
+{
+Frame MISLB { Light PoltExplD1 }
+Frame MISLC { Light PoltExplD2 }
+Frame MISLD { Light PoltExplD3 }
+}
+
+Flickerlight PoltBFG1
+{
+Color 0.0 1.0 0.0
+Size 28
+SecondarySize 36
+}
+
+Flickerlight PoltBFG2
+{
+Color 0.0 1.0 0.0
+Size 72
+SecondarySize 88
+}
+
+Flickerlight PoltBFG3
+{
+Color 0.0 1.0 0.0
+Size 88
+SecondarySize 104
+}
+
+Object PoltexplosPL
+{
+Frame PLTXA { Light PoltBFG1 }
+Frame PLTXB{ Light PoltBFG2 }
+Frame PLTXC { Light PoltBFG3 }
+Frame PLTXD { Light PoltBFG3 }
+Frame PLTXE { Light PoltBFG2 }
+Frame PLTXF { Light PoltBFG1 }
+}
+
+// Terminator Ball
+flickerlight NMTERMINATORBALL
+{
+color 1.0 0.0 0.0
+size 56
+secondarySize 64
+chance 0.25
+}
+
+flickerlight NMTERMINATORBALL_X1
+{
+color 1.0 0.0 0.0
+size 72
+secondarySize 80
+chance 0.25
+}
+
+flickerlight NMTERMINATORBALL_X2
+{
+color 0.8 0.0 0.0
+size 88
+secondarySize 96
+chance 0.25
+}
+
+object TerminatorItem
+{
+frame ARNOA0 { light NMTERMINATORBALL }
+frame ARNOB0 { light NMTERMINATORBALL }
+frame ARNOC0 { light NMTERMINATORBALL_X1 }
+frame ARNOD0 { light NMTERMINATORBALL_X2 }
+}
