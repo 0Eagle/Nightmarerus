@@ -1,6 +1,33 @@
 #library "NMSCRIPT"
 #include "zcommon.acs"
 
+function int GetAndSetUniqueTID(void)
+{
+	int tid = ActivatorTID();
+	if((tid == 0) || (ThingCount(T_NONE,tid) != 1))
+	{
+		tid = UniqueTID(0,0);
+		Thing_ChangeTID(0,tid);
+	}
+	return tid;
+}
+
+function bool ActorIsAlive(int tid)
+{
+	return ((ClassifyActor(tid) & ACTOR_ALIVE) == ACTOR_ALIVE);
+}
+
+function bool Extra_CheckMaxHealth (void)
+{
+	if(GetActorProperty(0,APROP_SpawnHealth) < 100)SetActorProperty(0,APROP_SpawnHealth,100);
+	return (GetActorProperty(0,APROP_Health) < GetActorProperty(0,APROP_SpawnHealth));
+}
+
+function bool IsGameTypeSinglePlayer(void)
+{
+	return (SinglePlayer() || (GameType() == GAME_SINGLE_PLAYER));
+}
+
 script "NM_AmmoBelt" (void)
 {
 	GiveInventory("AmmoBeltArmor",1);
@@ -60,30 +87,19 @@ script "Extra_CheckActorMonster" (void)
 	}
 }
 
-function bool Extra_CheckMaxHealth (void)
-{
-	If(GetActorProperty(0, APROP_SpawnHealth) == 0)SetActorProperty(0, APROP_SpawnHealth, 100);
-	if(GetActorProperty(0, APROP_Health) < GetActorProperty(0, APROP_SpawnHealth))return true;
-	return false;
-}
-
 Script "Extra_MedicalBackpack" (void)
 {
 	bool use = false;
-	while((Extra_CheckMaxHealth() == true) && (CheckInventory("HealthBackpack") > 0))
+	while(ActorIsAlive(0) && Extra_CheckMaxHealth() && (CheckInventory("HealthBackpack") > 0))
 	{
+		if(use == false)
+		{
+			use = true;
+			PlaySound(0,"MedicalBackpack/Use",CHAN_ITEM);
+		}
 		TakeInventory("HealthBackpack", 1);
 		Healthing(1);
 		delay(1);
-		use = true;
-	}
-	if(use == true)
-	{
-		SetResultValue(1);
-	}
-	else
-	{
-		SetResultValue(0);
 	}
 }
 
@@ -106,15 +122,6 @@ script "nm_addnmmaps" (void)
 	ConsoleCommand("addmap map32");
 	printbold(s:"Added all nm maps to map rotation.");
 	log(s:"Added all nm maps to map rotation.");
-}
-
-function bool IsGameTypeSinglePlayer(void)
-{
-	if((GameType() == GAME_TITLE_MAP) || (GameType() == GAME_SINGLE_PLAYER))
-	{
-		return true;
-	}
-	return false;
 }
 
 script "NM_NoJerkSpawner" (void)
