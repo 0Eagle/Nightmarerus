@@ -4,10 +4,28 @@
 function int GetAndSetUniqueTID(void)
 {
 	int tid = ActivatorTID();
-	if((tid == 0) || (ThingCount(T_NONE,tid) != 1))
+	if(tid == 0)
 	{
 		tid = UniqueTID(0,0);
 		Thing_ChangeTID(0,tid);
+	}
+	else if(ThingCount(T_NONE,tid) > 1)
+	{
+		tid = UniqueTID(0,0);
+		Thing_ChangeTID(0,tid);
+	}
+	else
+	{
+		Thing_ChangeTID(0,0);
+		if(!IsTIDUsed(tid))
+		{
+			Thing_ChangeTID(0,tid);
+		}
+		else
+		{
+			tid = UniqueTID(0,0);
+			Thing_ChangeTID(0,tid);
+		}
 	}
 	return tid;
 }
@@ -26,6 +44,43 @@ function bool Extra_CheckMaxHealth (void)
 function bool IsGameTypeSinglePlayer(void)
 {
 	return (SinglePlayer() || (GameType() == GAME_SINGLE_PLAYER));
+}
+//==============================================================================
+script "Extra_SelectItemSpawn" (void)
+{
+	if(StrICmp(Strparam(l:"Item412026"),"0") == 0)
+	{
+		SetActorState(0,"Include");
+	}
+	else
+	{
+		SetActorState(0,"External");
+	}
+}
+
+script "Extra_GetTID" (void)
+{
+	int tid = UniqueTID(0,0);
+	SetUserVariable(0,"user_tid",tid);
+	SetResultValue(tid);
+}
+
+script "Extra_SetupItem" (void)
+{
+	str name;
+	if(StrICmp(Strparam(l:"Item412026"),"0") == 0)
+	{
+		name = Strparam(l:"EXTRA_SENTRYGUNBOX_NAME");
+	}
+	else
+	{
+		name = Strparam(l:"EXTERNAL_SENTRYGUNBOX_NAME");
+	}
+	int tid = GetUserVariable(0,"user_tid");
+	if((tid != 0) && !(ClassifyActor(tid) & ACTOR_MONSTER) && !(ClassifyActor(tid) & ACTOR_PLAYER) && CheckActorClass(tid,name))
+	{
+		GiveActorInventory(tid,"ExtraResetFlagDROPPED",1);
+	}
 }
 
 script "NM_AmmoBelt" (void)
