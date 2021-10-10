@@ -206,13 +206,15 @@ script "NM_NoJerk" (void)
 
 script "NM_Enter" ENTER
 {
-	Delay(random(1,10));
+	int p_num = PlayerNumber();
+	delay(10+(p_num/10));
 	ACS_NamedExecuteAlways("NM_NoJerk",0);
 }
 
 script "NM_Respawn" RESPAWN
 {
-	Delay(random(1,10));
+	int p_num = PlayerNumber();
+	delay(10+(p_num/10));
 	ACS_NamedExecuteAlways("NM_NoJerk",0);
 }
 
