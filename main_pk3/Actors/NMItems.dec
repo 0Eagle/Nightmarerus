@@ -117,7 +117,7 @@ States
 		TNT1 A 0 A_SetUserVar("user_ammo",user_ammo-2)
 		TNT1 A 0 A_JumpIf(user_ammo < 1,"Death")
 		TNT1 A 0 A_PlaySound("NMSentry/Attack",CHAN_WEAPON,1.0,false)
-		SENT B 2 Bright A_CustomBulletAttack(1.0,1.0,1,random(1,5)*15,"SentryGunBulletPuff",2048,CBAF_NORANDOM)
+		SENT B 2 Bright A_CustomBulletAttack(1.0,1.0,1,random(1,5)*25,"SentryGunBulletPuff",2048,CBAF_NORANDOM)
 		SENT A 2 A_FaceTarget(45)
 		TNT1 A 0 A_PlaySound("NMSentry/Attack",CHAN_WEAPON,1.0,false)
 		SENT B 2 Bright A_CustomBulletAttack(1.0,1.0,1,random(1,5)*15,"SentryGunBulletPuff",2048,CBAF_NORANDOM)
@@ -127,7 +127,7 @@ States
 	Death:
 		SENT C 1 A_PlaySound("NMSentry/Death",5)
 		TNT1 A 0 A_PlaySound("weapons/rocklx",6)
-		TNT1 A 0 A_SpawnItem("SentryBoom",0,48)
+		TNT1 A 0 A_SpawnItemEx("SentryBoom",0,0,48,0,0,0,0,SXF_CLIENTSIDE,0)
 		SENT C 525
 		"####" "###########" 2 A_FadeOut(0.1,1)
 		Stop
